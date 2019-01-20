@@ -1,0 +1,6 @@
+framework module Pods_DataSources_Example {
+  umbrella header "Pods-DataSources_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
