@@ -12,7 +12,14 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		8F7E14E0221098F600DF4E40 /* ListDataSourceDelegateTableViewUpdaterWithConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E14DC221098F500DF4E40 /* ListDataSourceDelegateTableViewUpdaterWithConversionTests.swift */; };
+		8F7E14E1221098F600DF4E40 /* ListDataSourceDelegateTableViewUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E14DD221098F600DF4E40 /* ListDataSourceDelegateTableViewUpdaterTests.swift */; };
+		8F7E14E2221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterWithConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E14DE221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterWithConversionTests.swift */; };
+		8F7E14E3221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E14DF221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterTests.swift */; };
+		8F7E14E522109A0D00DF4E40 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E14E422109A0D00DF4E40 /* TableViewController.swift */; };
+		8F7E14E722109A2E00DF4E40 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E14E622109A2E00DF4E40 /* TableView.swift */; };
+		8F7E14E922109A3700DF4E40 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E14E822109A3700DF4E40 /* TableViewDataSource.swift */; };
+		8F7E14EB2210B75500DF4E40 /* CallSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7E14EA2210B75500DF4E40 /* CallSignature.swift */; };
 		999AAD05BDBDBA0E92DB26FC /* Pods_DataSources_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E985EBFD68D75B52A66D8B0 /* Pods_DataSources_Tests.framework */; };
 		ABBA8D4F3A6684D54F74B7AB /* Pods_DataSources_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E661A1B010C8895C30B21A9 /* Pods_DataSources_Example.framework */; };
 /* End PBXBuildFile section */
@@ -41,8 +48,15 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* DataSources_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataSources_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		8F63EA5D067D571DC6D08483 /* Pods-DataSources_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DataSources_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DataSources_Tests/Pods-DataSources_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		8F7E14DC221098F500DF4E40 /* ListDataSourceDelegateTableViewUpdaterWithConversionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDataSourceDelegateTableViewUpdaterWithConversionTests.swift; sourceTree = "<group>"; };
+		8F7E14DD221098F600DF4E40 /* ListDataSourceDelegateTableViewUpdaterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDataSourceDelegateTableViewUpdaterTests.swift; sourceTree = "<group>"; };
+		8F7E14DE221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterWithConversionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionedListDataSourceDelegateTableViewUpdaterWithConversionTests.swift; sourceTree = "<group>"; };
+		8F7E14DF221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionedListDataSourceDelegateTableViewUpdaterTests.swift; sourceTree = "<group>"; };
+		8F7E14E422109A0D00DF4E40 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		8F7E14E622109A2E00DF4E40 /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
+		8F7E14E822109A3700DF4E40 /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
+		8F7E14EA2210B75500DF4E40 /* CallSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallSignature.swift; sourceTree = "<group>"; };
 		AB22678EDE6CA175B5F6FB1B /* Pods-DataSources_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DataSources_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-DataSources_Example/Pods-DataSources_Example.release.xcconfig"; sourceTree = "<group>"; };
 		B406DA2EE2D31D822285DF28 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		BB82D11D1D2EB4100E44E75A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -115,7 +129,14 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				8F7E14EA2210B75500DF4E40 /* CallSignature.swift */,
+				8F7E14E622109A2E00DF4E40 /* TableView.swift */,
+				8F7E14E422109A0D00DF4E40 /* TableViewController.swift */,
+				8F7E14E822109A3700DF4E40 /* TableViewDataSource.swift */,
+				8F7E14DD221098F600DF4E40 /* ListDataSourceDelegateTableViewUpdaterTests.swift */,
+				8F7E14DC221098F500DF4E40 /* ListDataSourceDelegateTableViewUpdaterWithConversionTests.swift */,
+				8F7E14DF221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterTests.swift */,
+				8F7E14DE221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterWithConversionTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -207,18 +228,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = BHX8R35CB6;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1010;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = BHX8R35CB6;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1010;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
 				};
@@ -345,7 +366,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				8F7E14E2221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterWithConversionTests.swift in Sources */,
+				8F7E14E722109A2E00DF4E40 /* TableView.swift in Sources */,
+				8F7E14E522109A0D00DF4E40 /* TableViewController.swift in Sources */,
+				8F7E14E3221098F600DF4E40 /* SectionedListDataSourceDelegateTableViewUpdaterTests.swift in Sources */,
+				8F7E14EB2210B75500DF4E40 /* CallSignature.swift in Sources */,
+				8F7E14E0221098F600DF4E40 /* ListDataSourceDelegateTableViewUpdaterWithConversionTests.swift in Sources */,
+				8F7E14E922109A3700DF4E40 /* TableViewDataSource.swift in Sources */,
+				8F7E14E1221098F600DF4E40 /* ListDataSourceDelegateTableViewUpdaterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,12 +419,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -444,12 +474,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -489,8 +521,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -505,8 +536,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -527,8 +557,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DataSources_Example.app/DataSources_Example";
 			};
 			name = Debug;
@@ -546,8 +575,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DataSources_Example.app/DataSources_Example";
 			};
 			name = Release;
