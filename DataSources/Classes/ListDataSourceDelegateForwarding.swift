@@ -14,30 +14,66 @@ public protocol ListDataSourceDelegateForwarding: ListDataSourceDelegate {
 
 extension ListDataSourceDelegateForwarding {
     public func dataSource(_ dataSource: Any, didInsertItemsAtIndexPaths indexPaths: [IndexPath]) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didInsertItemsAtIndexPaths: indexPaths)
+        _dataSource(dataSource, didInsertItemsAtIndexPaths: indexPaths)
     }
     
     public func dataSource(_ dataSource: Any, didDeleteItemsAtIndexPaths indexPaths: [IndexPath]) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didDeleteItemsAtIndexPaths: indexPaths)
+        _dataSource(dataSource, didDeleteItemsAtIndexPaths: indexPaths)
     }
     
     public func dataSource(_ dataSource: Any, didUpdateItemsAtIndexPaths indexPaths: [IndexPathUpdate]) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didUpdateItemsAtIndexPaths: indexPaths)
+        _dataSource(dataSource, didUpdateItemsAtIndexPaths: indexPaths)
     }
     
     public func dataSource(_ dataSource: Any, didMoveItemAtIndexPath fromIndexPath: IndexPath, toIndexPath: IndexPath) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didMoveItemAtIndexPath: fromIndexPath, toIndexPath: toIndexPath)
+        _dataSource(dataSource, didMoveItemAtIndexPath: fromIndexPath, toIndexPath: toIndexPath)
     }
     
     public func dataSourceWillUpdateItems(_ dataSource: Any) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSourceWillUpdateItems(self)
+        _dataSourceWillUpdateItems(dataSource)
     }
     
     public func dataSourceDidUpdateItems(_ dataSource: Any) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSourceDidUpdateItems(self)
+        _dataSourceDidUpdateItems(dataSource)
     }
     
     public func dataSourceDidReloadItems(_ dataSource: Any) {
+        _dataSourceDidReloadItems(dataSource)
+    }
+    
+    /*
+     The following functions contain the actual implementation of the update functions above. If you
+     create an own implementation of the above update functions in your class implementing `ListDataSourceDelegateForwarding`
+     (because you want to perform extra work when the data source changes), make sure to call the respective function below.
+     This can be see as calling the super implementation in the context of class inheritence. However, this concept is not
+     available in Swift for generic protocols, so we have to use this workaround.
+     */
+
+    public func _dataSource(_ dataSource: Any, didInsertItemsAtIndexPaths indexPaths: [IndexPath]) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didInsertItemsAtIndexPaths: indexPaths)
+    }
+    
+    public func _dataSource(_ dataSource: Any, didDeleteItemsAtIndexPaths indexPaths: [IndexPath]) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didDeleteItemsAtIndexPaths: indexPaths)
+    }
+    
+    public func _dataSource(_ dataSource: Any, didUpdateItemsAtIndexPaths indexPaths: [IndexPathUpdate]) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didUpdateItemsAtIndexPaths: indexPaths)
+    }
+    
+    public func _dataSource(_ dataSource: Any, didMoveItemAtIndexPath fromIndexPath: IndexPath, toIndexPath: IndexPath) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didMoveItemAtIndexPath: fromIndexPath, toIndexPath: toIndexPath)
+    }
+    
+    public func _dataSourceWillUpdateItems(_ dataSource: Any) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSourceWillUpdateItems(self)
+    }
+    
+    public func _dataSourceDidUpdateItems(_ dataSource: Any) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSourceDidUpdateItems(self)
+    }
+    
+    public func _dataSourceDidReloadItems(_ dataSource: Any) {
         destinationDataSourceDelegate(for: dataSource)?.dataSourceDidReloadItems(self)
     }
 }

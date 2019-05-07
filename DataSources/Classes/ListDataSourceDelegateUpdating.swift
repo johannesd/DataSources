@@ -175,7 +175,7 @@ extension ListDataSourceDelegateUpdating {
     
     /*
      The following functions contain the actual implementation of the update functions above. If you
-     create an own implementation of the above update functions in your class implementing SectionedListDataSourceDelegateUpdating
+     create an own implementation of the above update functions in your class implementing `ListDataSourceDelegateUpdating`
      (because you want to perform extra work when the data source changes), make sure to call the respective function below.
      This can be see as calling the super implementation in the context of class inheritence. However, this concept is not
      available in Swift for generic protocols, so we have to use this workaround.

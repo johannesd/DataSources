@@ -18,18 +18,46 @@ extension SectionedListDataSourceDelegateForwarding {
     }
     
     public func dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didInsertSections: sectionIndices)
+        _dataSource(dataSource, didInsertSections: sectionIndices)
     }
     
     public func dataSource(_ dataSource: Any, didDeleteSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didDeleteSections: sectionIndices)
+        _dataSource(dataSource, didDeleteSections: sectionIndices)
     }
     
     public func dataSource(_ dataSource: Any, didUpdateSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didUpdateSections: sectionIndices)
+        _dataSource(dataSource, didUpdateSections: sectionIndices)
     }
     
     public func dataSource(_ dataSource: Any, didMoveSection fromSectionIndex: Int, to toSectionIndex: Int) {
+        _dataSource(dataSource, didMoveSection: fromSectionIndex, to: toSectionIndex)
+    }
+    
+    /*
+     The following functions contain the actual implementation of the update functions above. If you
+     create an own implementation of the above update functions in your class implementing `SectionedListDataSourceDelegateForwarding`
+     (because you want to perform extra work when the data source changes), make sure to call the respective function below.
+     This can be see as calling the super implementation in the context of class inheritence. However, this concept is not
+     available in Swift for generic protocols, so we have to use this workaround.
+     */
+    
+    public func _destinationDataSourceDelegate(for dataSource: Any) -> ListDataSourceDelegate? {
+        return destinationDataSourceDelegate(for: dataSource)
+    }
+    
+    public func _dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didInsertSections: sectionIndices)
+    }
+    
+    public func _dataSource(_ dataSource: Any, didDeleteSections sectionIndices: IndexSet) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didDeleteSections: sectionIndices)
+    }
+    
+    public func _dataSource(_ dataSource: Any, didUpdateSections sectionIndices: IndexSet) {
+        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didUpdateSections: sectionIndices)
+    }
+    
+    public func _dataSource(_ dataSource: Any, didMoveSection fromSectionIndex: Int, to toSectionIndex: Int) {
         destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didMoveSection: fromSectionIndex, to: toSectionIndex)
     }
 }
