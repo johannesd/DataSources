@@ -13,7 +13,7 @@ import Delegates
 /**
  A data source that provides the items of a `MapDataSource` as a sorted list.
  */
-public final class MapItemListDataSource<Key, Value>: ListBasedDataSource<MapBasedDataSource<Key, Value>.Item> where Key: Hashable {
+public final class MapItemListDataSource<Key, Value>: ReadonlyListBasedDataSource<MapBasedDataSource<Key, Value>.Item> where Key: Hashable {
     public var delegates = Delegates<ListDataSourceDelegate>()
     public typealias MapDataSource = MapBasedDataSource<Key, Value>
     public private(set) var mapDataSource: MapDataSource

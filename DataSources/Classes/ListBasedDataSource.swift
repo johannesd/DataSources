@@ -16,11 +16,34 @@ import Foundation
 /**
  A base class for data sources that stores a list.
  */
-open class ListBasedDataSource<Element>: DataSourceDelegating {
+open class ListBasedDataSource<Element>: ReadonlyListBasedDataSource<Element> {
+    open override subscript(index: Int) -> Element {
+        get {
+            return super[index]
+        }
+        set(newValue) {
+            super[index] = newValue
+        }
+    }
+    
+    open override func append(_ newElement: Element) {
+        super.append(newElement)
+    }
+    
+    open override func insert(_ newElement: Element, at index: Int) {
+        super.insert(newElement, at: index)
+    }
+    
+    open override func remove(at index: Int) {
+        super.remove(at: index)
+    }
+}
+
+open class ReadonlyListBasedDataSource<Element>: DataSourceDelegating {
     public var dataSourceDelegates = DataSourceDelegates()
     internal var elements = [Element]()
     
-    open subscript(index: Int) -> Element {
+    open internal(set) subscript(index: Int) -> Element {
         get {
             return elements[index]
         }
@@ -32,21 +55,21 @@ open class ListBasedDataSource<Element>: DataSourceDelegating {
         }
     }
     
-    open func append(_ newElement: Element) {
+    internal func append(_ newElement: Element) {
         forEachDelegate { $0.dataSourceWillUpdateItems(self) }
         elements.append(newElement)
         forEachDelegate { $0.dataSource(self, didInsertItemsAtIndexPaths: [IndexPath(index: elements.count - 1)]) }
         forEachDelegate { $0.dataSourceDidUpdateItems(self) }
     }
     
-    open func insert(_ newElement: Element, at index: Int) {
+    internal func insert(_ newElement: Element, at index: Int) {
         forEachDelegate { $0.dataSourceWillUpdateItems(self) }
         elements.insert(newElement, at: index)
         forEachDelegate { $0.dataSource(self, didInsertItemsAtIndexPaths: [IndexPath(index: index)]) }
         forEachDelegate { $0.dataSourceDidUpdateItems(self) }
     }
     
-    open func remove(at index: Int) {
+    internal func remove(at index: Int) {
         forEachDelegate { $0.dataSourceWillUpdateItems(self) }
         elements.remove(at: index)
         forEachDelegate { $0.dataSource(self, didDeleteItemsAtIndexPaths: [IndexPath(index: index)]) }
