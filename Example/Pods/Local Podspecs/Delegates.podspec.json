@@ -1,0 +1,22 @@
+{
+  "name": "Delegates",
+  "version": "0.1.0",
+  "summary": "A short description of Delegates.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/johannesd/Delegates",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "johannesd": "mail@johannesdoerr.de"
+  },
+  "source": {
+    "git": "https://github.com/johannesd/Delegates.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "Delegates/Classes/**/*"
+}

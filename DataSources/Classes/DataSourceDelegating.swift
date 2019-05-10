@@ -9,7 +9,7 @@
 import Foundation
 import Delegates
 
-public protocol DataSourceDelegating: DelegatingDataSource {
+public protocol DataSourceDelegating: DataSource {
     var dataSourceDelegates: DataSourceDelegates { get set }
 }
 

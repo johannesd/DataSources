@@ -18,5 +18,10 @@
   "platforms": {
     "ios": "11.0"
   },
-  "source_files": "DataSources/Classes/**/*"
+  "source_files": "DataSources/Classes/**/*",
+  "dependencies": {
+    "Delegates": [
+
+    ]
+  }
 }

@@ -36,7 +36,7 @@
 
 /* Begin PBXFileReference section */
 		1E985EBFD68D75B52A66D8B0 /* Pods_DataSources_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DataSources_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2B3F2C968D51398672395A20 /* DataSources.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DataSources.podspec; path = ../DataSources.podspec; sourceTree = "<group>"; };
+		2B3F2C968D51398672395A20 /* DataSources.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DataSources.podspec; path = ../DataSources.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		3286B9F83991424F22F0261E /* Pods-DataSources_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DataSources_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DataSources_Tests/Pods-DataSources_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3E661A1B010C8895C30B21A9 /* Pods_DataSources_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DataSources_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* DataSources_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DataSources_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,6 +249,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
