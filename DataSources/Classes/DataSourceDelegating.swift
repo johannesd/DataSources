@@ -15,22 +15,14 @@ public protocol DataSourceDelegating: DataSource {
 
 extension DataSourceDelegating {
     public func add<Delegate>(_ delegate: Delegate, as dataSourceDelegateType: Delegate.Type) {
-        let key = "\(dataSourceDelegateType)"
-        let delegatesForType = dataSourceDelegates[key, default: DataSourceDelegates.Value()]
-        delegatesForType.add(delegate as AnyObject)
-        dataSourceDelegates[key] = delegatesForType
+        dataSourceDelegates.add(delegate, as: dataSourceDelegateType)
     }
     
     public func remove<Delegate>(_ delegate: Delegate, as dataSourceDelegateType: Delegate.Type) {
-        let key = "\(dataSourceDelegateType)"
-        dataSourceDelegates[key]?.remove(delegate as AnyObject)
+        dataSourceDelegates.remove(delegate, as: dataSourceDelegateType)
     }
     
-    public func forEachDataSourceDelegate<DataSourceDelegate>(block: (DataSourceDelegate) -> Void) {
-        let key = "\(DataSourceDelegate.self)"
-        let delegatesForType = dataSourceDelegates[key, default: DataSourceDelegates.Value()]
-        delegatesForType.forEach { (delegate) in
-            block(delegate as! DataSourceDelegate)
-        }
+    public func forEachDataSourceDelegate<DataSourceDelegate>(_ block: (DataSourceDelegate) -> Void) {
+        dataSourceDelegates.forEachDataSourceDelegate(block)
     }
 }

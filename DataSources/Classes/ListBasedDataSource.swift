@@ -58,7 +58,7 @@ open class ListBasedDataSource<Element>: DataSourceDelegating {
     }
     
     open func forEachDelegate(_ block: (ListDataSourceDelegate) -> Void) -> Void {
-        forEachDataSourceDelegate(block: block)
+        forEachDataSourceDelegate(block)
     }
 }
 

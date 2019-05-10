@@ -71,7 +71,7 @@ open class MapBasedDataSource<Key, Value>: DataSourceDelegating where Key: Hasha
     }
     
     open func forEachDelegate(_ block: (MapDataSourceDelegate) -> Void) -> Void {
-        forEachDataSourceDelegate(block: block)
+        forEachDataSourceDelegate(block)
     }
 }
 
