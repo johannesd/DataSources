@@ -13,34 +13,32 @@ import Foundation
 // elements could be set within one update cycle. (or is merge enough for this?)
 
 // TODO: Function item(at: IndexPath) in order to have same accessor function as other data sources
-// TODO: Value should be called Item, so that item(at: IndexPath) is consistent. Item should be Entry
-
 /**
  A base class for data sources that store key/value pairs.
  */
-open class MapBasedDataSource<Key, Value>: DataSourceDelegating where Key: Hashable {
+open class MapBasedDataSource<Key, Item>: DataSourceDelegating where Key: Hashable {
     public var dataSourceDelegates = DataSourceDelegates()
-    internal var values = [Key: Value]()
+    internal var items = [Key: Item]()
     
-    public struct Item {
+    public struct Element {
         public let key: Key
-        public let value: Value
+        public let item: Item
         
-        public init(key: Key, value: Value) {
+        public init(key: Key, item: Item) {
             self.key = key
-            self.value = value
+            self.item = item
         }
     }
     
-    open subscript(key: Key) -> Value? {
+    open subscript(key: Key) -> Item? {
         get {
-            return values[key]
+            return items[key]
         }
         set(newValue) {
             if let newValue = newValue {
                 let existingValue = self[key]
                 forEachDelegate { $0.dataSourceWillUpdateItems(self) }
-                values[key] = newValue
+                items[key] = newValue
                 if let _ = existingValue {
                     forEachDelegate { $0.dataSource(self, didUpdateItemsForKeys: [key]) }
                 } else {
@@ -48,26 +46,26 @@ open class MapBasedDataSource<Key, Value>: DataSourceDelegating where Key: Hasha
                 }
                 forEachDelegate { $0.dataSourceDidUpdateItems(self) }
             } else {
-                removeValue(forKey: key)
+                removeItem(forKey: key)
             }
         }
     }
     
-    open func removeValue(forKey key: Key) {
-        if let _ = values[key] {
+    open func removeItem(forKey key: Key) {
+        if let _ = items[key] {
             forEachDelegate { $0.dataSourceWillUpdateItems(self) }
-            values.removeValue(forKey: key)
+            items.removeValue(forKey: key)
             forEachDelegate { $0.dataSource(self, didDeleteItemsForKeys: [key]) }
             forEachDelegate { $0.dataSourceDidUpdateItems(self) }
         }
     }
     
     open var count: Int {
-        return values.count
+        return items.count
     }
     
-    open var items: [Item] {
-        return values.map { Item(key: $0, value: $1) }
+    open var elements: [Element] {
+        return items.map { Element(key: $0, item: $1) }
     }
     
     open func forEachDelegate(_ block: (MapDataSourceDelegate) -> Void) -> Void {
@@ -75,8 +73,8 @@ open class MapBasedDataSource<Key, Value>: DataSourceDelegating where Key: Hasha
     }
 }
 
-extension MapBasedDataSource.Item: Equatable {
-    public static func == (lhs: MapBasedDataSource<Key, Value>.Item, rhs: MapBasedDataSource<Key, Value>.Item) -> Bool {
+extension MapBasedDataSource.Element: Equatable {
+    public static func == (lhs: MapBasedDataSource<Key, Item>.Element, rhs: MapBasedDataSource<Key, Item>.Element) -> Bool {
         return lhs.key == rhs.key
     }
 }

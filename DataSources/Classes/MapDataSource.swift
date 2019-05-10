@@ -11,14 +11,14 @@ import Delegates
 /**
  A data source that stores key/value pairs.
  */
-public final class MapDataSource<Key, Value>: MapBasedDataSource<Key, Value>, ExpressibleByDictionaryLiteral where Key: Hashable {
+public final class MapDataSource<Key, Item>: MapBasedDataSource<Key, Item>, ExpressibleByDictionaryLiteral where Key: Hashable {
     public var delegates = Delegates<MapDataSourceDelegate>()
 
-    public typealias ListDataSource = MapItemListDataSource<Key, Value>
+    public typealias ListDataSource = MapItemListDataSource<Key, Item>
     
-    public required init(dictionaryLiteral elements: (Key, Value)...) {
+    public required init(dictionaryLiteral elements: (Key, Item)...) {
         super.init()
-        elements.forEach { values[$0] = $1 }
+        elements.forEach { items[$0] = $1 }
     }
     
     public override func forEachDelegate(_ block: (MapDataSourceDelegate) -> Void) {

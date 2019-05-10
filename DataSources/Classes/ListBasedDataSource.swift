@@ -11,13 +11,12 @@ import Foundation
 // TODO: Add support for subscript with collection as index input. That way, multiple
 // elements could be set within one update cycle. 
 // TODO: Function item(at: IndexPath) in order to have same accessor function as other data sources
-// TODO: Element should be called Item, so that item(at: IndexPath) is consistent
 
 /**
  A base class for data sources that stores a list.
  */
-open class ListBasedDataSource<Element>: ReadonlyListBasedDataSource<Element> {
-    open override subscript(index: Int) -> Element {
+open class ListBasedDataSource<Item>: ReadonlyListBasedDataSource<Item> {
+    open override subscript(index: Int) -> Item {
         get {
             return super[index]
         }
@@ -26,12 +25,12 @@ open class ListBasedDataSource<Element>: ReadonlyListBasedDataSource<Element> {
         }
     }
     
-    open override func append(_ newElement: Element) {
-        super.append(newElement)
+    open override func append(_ newItem: Item) {
+        super.append(newItem)
     }
     
-    open override func insert(_ newElement: Element, at index: Int) {
-        super.insert(newElement, at: index)
+    open override func insert(_ newItem: Item, at index: Int) {
+        super.insert(newItem, at: index)
     }
     
     open override func remove(at index: Int) {
@@ -39,45 +38,45 @@ open class ListBasedDataSource<Element>: ReadonlyListBasedDataSource<Element> {
     }
 }
 
-open class ReadonlyListBasedDataSource<Element>: DataSourceDelegating {
+open class ReadonlyListBasedDataSource<Item>: DataSourceDelegating {
     public var dataSourceDelegates = DataSourceDelegates()
-    internal var elements = [Element]()
+    internal var items = [Item]()
     
-    open internal(set) subscript(index: Int) -> Element {
+    open internal(set) subscript(index: Int) -> Item {
         get {
-            return elements[index]
+            return items[index]
         }
         set(newValue) {
             forEachDelegate { $0.dataSourceWillUpdateItems(self) }
-            elements[index] = newValue
+            items[index] = newValue
             forEachDelegate { $0.dataSource(self, didUpdateItemsAtIndexPaths: [IndexPathUpdate(IndexPath(index: index))]) }
             forEachDelegate { $0.dataSourceDidUpdateItems(self) }
         }
     }
     
-    internal func append(_ newElement: Element) {
+    internal func append(_ newItem: Item) {
         forEachDelegate { $0.dataSourceWillUpdateItems(self) }
-        elements.append(newElement)
-        forEachDelegate { $0.dataSource(self, didInsertItemsAtIndexPaths: [IndexPath(index: elements.count - 1)]) }
+        items.append(newItem)
+        forEachDelegate { $0.dataSource(self, didInsertItemsAtIndexPaths: [IndexPath(index: items.count - 1)]) }
         forEachDelegate { $0.dataSourceDidUpdateItems(self) }
     }
     
-    internal func insert(_ newElement: Element, at index: Int) {
+    internal func insert(_ newItem: Item, at index: Int) {
         forEachDelegate { $0.dataSourceWillUpdateItems(self) }
-        elements.insert(newElement, at: index)
+        items.insert(newItem, at: index)
         forEachDelegate { $0.dataSource(self, didInsertItemsAtIndexPaths: [IndexPath(index: index)]) }
         forEachDelegate { $0.dataSourceDidUpdateItems(self) }
     }
     
     internal func remove(at index: Int) {
         forEachDelegate { $0.dataSourceWillUpdateItems(self) }
-        elements.remove(at: index)
+        items.remove(at: index)
         forEachDelegate { $0.dataSource(self, didDeleteItemsAtIndexPaths: [IndexPath(index: index)]) }
         forEachDelegate { $0.dataSourceDidUpdateItems(self) }
     }
     
     open var count: Int {
-        return elements.count
+        return items.count
     }
     
     open func forEachDelegate(_ block: (ListDataSourceDelegate) -> Void) -> Void {
@@ -87,6 +86,6 @@ open class ReadonlyListBasedDataSource<Element>: DataSourceDelegating {
 
 extension Array {
     public init(listBasedDataSource: ListBasedDataSource<Element>) {
-        self = listBasedDataSource.elements
+        self = listBasedDataSource.items
     }
 }
