@@ -12,7 +12,6 @@ import Foundation
 // TODO: Add support for subscript with collection as key input. That way, multiple
 // elements could be set within one update cycle. (or is merge enough for this?)
 
-// TODO: Function item(at: IndexPath) in order to have same accessor function as other data sources
 /**
  A base class for data sources that store key/value pairs.
  */
@@ -49,6 +48,10 @@ open class MapBasedDataSource<Key, Item>: DataSourceDelegating where Key: Hashab
                 removeItem(forKey: key)
             }
         }
+    }
+    
+    open func item(forKey key: Key) -> Item? {
+        return self[key]
     }
     
     open func removeItem(forKey key: Key) {

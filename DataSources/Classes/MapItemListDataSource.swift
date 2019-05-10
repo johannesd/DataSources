@@ -8,8 +8,6 @@
 import Foundation
 import Delegates
 
-// TODO: This should subclass of a ListBasedDataSource that is readonly from outside
-
 /**
  A data source that provides the items of a `MapDataSource` as a sorted list.
  */

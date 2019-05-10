@@ -10,7 +10,6 @@ import Foundation
 // TODO: Add support for most Array functions, like append(contentsOf:) etc
 // TODO: Add support for subscript with collection as index input. That way, multiple
 // elements could be set within one update cycle. 
-// TODO: Function item(at: IndexPath) in order to have same accessor function as other data sources
 
 /**
  A base class for data sources that stores a list.
@@ -54,6 +53,10 @@ open class ReadonlyListBasedDataSource<Item>: DataSourceDelegating {
         }
     }
     
+    open func item(at indexPath: IndexPath) -> Item {
+        return self[indexPath.index]
+    }
+
     internal func append(_ newItem: Item) {
         forEachDelegate { $0.dataSourceWillUpdateItems(self) }
         items.append(newItem)
