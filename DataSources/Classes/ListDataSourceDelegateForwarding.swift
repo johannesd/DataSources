@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol ListDataSourceDelegateForwarding: ListDataSourceDelegate {
-    func destinationDataSourceDelegate(for dataSource: Any) -> ListDataSourceDelegate?
+    func destinationDataSourceDelegates(for dataSource: Any) -> [ListDataSourceDelegate]
 }
 
 extension ListDataSourceDelegateForwarding {
@@ -50,30 +50,30 @@ extension ListDataSourceDelegateForwarding {
      */
 
     public func _dataSource(_ dataSource: Any, didInsertItemsAtIndexPaths indexPaths: [IndexPath]) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didInsertItemsAtIndexPaths: indexPaths)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertItemsAtIndexPaths: indexPaths) }
     }
     
     public func _dataSource(_ dataSource: Any, didDeleteItemsAtIndexPaths indexPaths: [IndexPath]) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didDeleteItemsAtIndexPaths: indexPaths)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didDeleteItemsAtIndexPaths: indexPaths) }
     }
     
     public func _dataSource(_ dataSource: Any, didUpdateItemsAtIndexPaths indexPaths: [IndexPathUpdate]) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didUpdateItemsAtIndexPaths: indexPaths)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didUpdateItemsAtIndexPaths: indexPaths) }
     }
     
     public func _dataSource(_ dataSource: Any, didMoveItemAtIndexPath fromIndexPath: IndexPath, toIndexPath: IndexPath) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didMoveItemAtIndexPath: fromIndexPath, toIndexPath: toIndexPath)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didMoveItemAtIndexPath: fromIndexPath, toIndexPath: toIndexPath) }
     }
     
     public func _dataSourceWillUpdateItems(_ dataSource: Any) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSourceWillUpdateItems(self)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSourceWillUpdateItems(self) }
     }
     
     public func _dataSourceDidUpdateItems(_ dataSource: Any) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSourceDidUpdateItems(self)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSourceDidUpdateItems(self) }
     }
     
     public func _dataSourceDidReloadItems(_ dataSource: Any) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSourceDidReloadItems(self)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSourceDidReloadItems(self) }
     }
 }

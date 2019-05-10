@@ -9,12 +9,12 @@
 import Foundation
 
 public protocol SectionedListDataSourceDelegateForwarding: ListDataSourceDelegateForwarding {
-    func destinationDataSourceDelegate(for dataSource: Any) -> SectionedListDataSourceDelegate?
+    func destinationDataSourceDelegates(for dataSource: Any) -> [SectionedListDataSourceDelegate]
 }
 
 extension SectionedListDataSourceDelegateForwarding {
-    public func destinationDataSourceDelegate(for dataSource: Any) -> ListDataSourceDelegate? {
-        return destinationDataSourceDelegate(for: dataSource)
+    public func destinationDataSourceDelegates(for dataSource: Any) -> [ListDataSourceDelegate] {
+        return destinationDataSourceDelegates(for: dataSource)
     }
     
     public func dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {
@@ -41,23 +41,23 @@ extension SectionedListDataSourceDelegateForwarding {
      available in Swift for generic protocols, so we have to use this workaround.
      */
     
-    public func _destinationDataSourceDelegate(for dataSource: Any) -> ListDataSourceDelegate? {
-        return destinationDataSourceDelegate(for: dataSource)
+    public func _destinationDataSourceDelegates(for dataSource: Any) -> [ListDataSourceDelegate] {
+        return destinationDataSourceDelegates(for: dataSource)
     }
     
     public func _dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didInsertSections: sectionIndices)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertSections: sectionIndices) }
     }
     
     public func _dataSource(_ dataSource: Any, didDeleteSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didDeleteSections: sectionIndices)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didDeleteSections: sectionIndices) }
     }
     
     public func _dataSource(_ dataSource: Any, didUpdateSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didUpdateSections: sectionIndices)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didUpdateSections: sectionIndices) }
     }
     
     public func _dataSource(_ dataSource: Any, didMoveSection fromSectionIndex: Int, to toSectionIndex: Int) {
-        destinationDataSourceDelegate(for: dataSource)?.dataSource(self, didMoveSection: fromSectionIndex, to: toSectionIndex)
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didMoveSection: fromSectionIndex, to: toSectionIndex) }
     }
 }
