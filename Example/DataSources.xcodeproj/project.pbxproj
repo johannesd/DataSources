@@ -339,12 +339,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DataSources_Example/Pods-DataSources_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/DataSources/DataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/Delegates/Delegates.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Delegates.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

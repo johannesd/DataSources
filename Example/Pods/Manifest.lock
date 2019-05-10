@@ -1,16 +1,28 @@
 PODS:
-  - DataSources (0.1.0)
+  - DataSources (0.1.0):
+    - Delegates
+  - Delegates (0.1.0)
 
 DEPENDENCIES:
   - DataSources (from `../`)
+  - Delegates (from `https://github.com/johannesd/Delegates.git`, tag `0.1.0`)
 
 EXTERNAL SOURCES:
   DataSources:
     :path: "../"
+  Delegates:
+    :git: https://github.com/johannesd/Delegates.git
+    :tag: 0.1.0
+
+CHECKOUT OPTIONS:
+  Delegates:
+    :git: https://github.com/johannesd/Delegates.git
+    :tag: 0.1.0
 
 SPEC CHECKSUMS:
-  DataSources: 8f4b7d54d8c2131e85938035e3d3ffb42f5a329c
+  DataSources: b1705b8e2a15ba086e8d466339a75db70406fd49
+  Delegates: 3595078ac5d3ca1996766ef5a71e739dbd5e0cfc
 
-PODFILE CHECKSUM: 235126dc081e8448f86505cfba44d027ca000e91
+PODFILE CHECKSUM: d7376f6f070679961ea926d7d584a2a0c14e3f05
 
 COCOAPODS: 1.5.3
