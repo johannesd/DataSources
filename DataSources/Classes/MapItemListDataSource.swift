@@ -39,7 +39,7 @@ extension MapItemListDataSource: MapDataSourceDelegate {
             guard let key = _key as? Key else { fatalError("Wrong key type") }
             guard let item = mapDataSource[key] else { fatalError("Item not found") }
             return .init(key: key, item: item)
-        }).sorted(by: areInIncreasingOrder)
+        })
         let elementKeys = (items + insertedItems).sorted(by: areInIncreasingOrder).map { $0.key }
         for item in insertedItems.reversed() {
             guard let index = elementKeys.index(of: item.key) else { fatalError("Key not found") }
@@ -51,13 +51,11 @@ extension MapItemListDataSource: MapDataSourceDelegate {
         // TODO: This produces an independent update for each key, but should only
         // create one update, so that animations won't break. See TODO at top of file.
         let elementKeys = items.map { $0.key }
-        let deletedKeys = keys.map({ (_key) -> MapDataSource.Element in
-            guard let key = _key as? Key else { fatalError("Wrong key type") }
-            guard let item = mapDataSource[key] else { fatalError("Item not found") }
-            return .init(key: key, item: item)
-        }).sorted(by: areInIncreasingOrder).map({ $0.key })
-        for key in deletedKeys.reversed() {
+        let deletedIndices = elementKeys.map { (key) -> Int in
             guard let index = elementKeys.index(of: key) else { fatalError("Key not found") }
+            return index
+        }
+        for index in deletedIndices.reversed() {
             remove(at: index)
         }
     }
