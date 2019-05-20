@@ -42,7 +42,7 @@ extension MapItemListDataSource: MapDataSourceDelegate {
         })
         let elementKeys = (items + insertedItems).sorted(by: areInIncreasingOrder).map { $0.key }
         for item in insertedItems.reversed() {
-            guard let index = elementKeys.index(of: item.key) else { fatalError("Key not found") }
+            guard let index = elementKeys.firstIndex(of: item.key) else { fatalError("Key not found") }
             insert(item, at: index)
         }
     }
@@ -52,7 +52,7 @@ extension MapItemListDataSource: MapDataSourceDelegate {
         // create one update, so that animations won't break. See TODO at top of file.
         let elementKeys = items.map { $0.key }
         let deletedIndices = elementKeys.map { (key) -> Int in
-            guard let index = elementKeys.index(of: key) else { fatalError("Key not found") }
+            guard let index = elementKeys.firstIndex(of: key) else { fatalError("Key not found") }
             return index
         }
         for index in deletedIndices.reversed() {
@@ -67,7 +67,7 @@ extension MapItemListDataSource: MapDataSourceDelegate {
         for _key in keys {
             guard let key = _key as? Key else { fatalError("Wrong key type") }
             guard let item = mapDataSource[key] else { fatalError("Item not found") }
-            guard let index = elementKeys.index(of: key) else { fatalError("Key not found") }
+            guard let index = elementKeys.firstIndex(of: key) else { fatalError("Key not found") }
             self[index] = .init(key: key, item: item)
         }
     }
