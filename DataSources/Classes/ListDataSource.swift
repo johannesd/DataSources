@@ -24,3 +24,18 @@ public final class ListDataSource<Item>: ListBasedDataSource<Item>, ExpressibleB
         delegates.forEach(block)
     }
 }
+
+extension ListDataSource where Item: Codable {
+    public func write(to url: URL, options: Data.WritingOptions = []) throws {
+        let data = try JSONEncoder().encode(items)
+        try data.write(to: url, options: options)
+    }
+    
+    public convenience init(contentsOf url: URL, options: Data.ReadingOptions = []) throws {
+        let data = try Data(contentsOf: url, options: options)
+        let decoder = JSONDecoder()
+        let items = try decoder.decode([Item].self, from: data)
+        self.init()
+        self.items = items
+    }
+}
