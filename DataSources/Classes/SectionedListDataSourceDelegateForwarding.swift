@@ -14,7 +14,7 @@ public protocol SectionedListDataSourceDelegateForwarding: ListDataSourceDelegat
 
 extension SectionedListDataSourceDelegateForwarding {
     public func destinationDataSourceDelegates(for dataSource: Any) -> [ListDataSourceDelegate] {
-        return destinationDataSourceDelegates(for: dataSource) as [SectionedListDataSourceDelegate]
+        return _destinationDataSourceDelegates(for: dataSource)
     }
     
     public func dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {

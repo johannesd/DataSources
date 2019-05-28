@@ -13,7 +13,7 @@ public protocol MapDataSourceDelegateForwarding: DataSourceDelegateForwarding {
 
 extension MapDataSourceDelegateForwarding {
     public func destinationDataSourceDelegates(for dataSource: Any) -> [DataSourceDelegate] {
-        return destinationDataSourceDelegates(for: dataSource) as [MapDataSourceDelegate]
+        return _destinationDataSourceDelegates(for: dataSource)
     }
 
     public func dataSource(_ dataSource: Any, didInsertItemsForKeys keys: [AnyHashable]) {
