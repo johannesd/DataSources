@@ -50,9 +50,10 @@ extension MapItemListDataSource: MapDataSourceDelegate {
     public func dataSource(_ dataSource: Any, didDeleteItemsForKeys keys: [AnyHashable]) {
         // TODO: This produces an independent update for each key, but should only
         // create one update, so that animations won't break. See TODO at top of file.
-        let elementKeys = items.map { $0.key }
-        let deletedIndices = elementKeys.map { (key) -> Int in
-            guard let index = elementKeys.firstIndex(of: key) else { fatalError("Key not found") }
+        let elementKeys = items.compactMap { $0.key }
+        let deletedIndices = keys.map { (key) -> Int in
+            guard let _key = key as? Key else { fatalError("Wrong key type") }
+            guard let index = elementKeys.firstIndex(of: _key) else { fatalError("Key not found") }
             return index
         }
         for index in deletedIndices.reversed() {
