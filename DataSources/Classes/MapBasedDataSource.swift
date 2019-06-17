@@ -66,6 +66,14 @@ open class MapBasedDataSource<Key, Item>: DataSourceDelegating where Key: Hashab
         }
     }
     
+    open func removeAll() {
+        forEachDelegate { $0.dataSourceWillUpdateItems(self) }
+        let keys = items.keys
+        items.removeAll()
+        forEachDelegate { $0.dataSource(self, didDeleteItemsForKeys: keys.map { AnyHashable($0) } ) }
+        forEachDelegate { $0.dataSourceDidUpdateItems(self) }
+    }
+    
     open var count: Int {
         return items.count
     }
