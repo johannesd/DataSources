@@ -38,6 +38,8 @@ open class ListBasedDataSource<Item>: ReadonlyListBasedDataSource<Item> {
 }
 
 open class ReadonlyListBasedDataSource<Item>: DataSourceDelegating {
+    public typealias Item = Item
+    
     public var dataSourceDelegates = DataSourceDelegates()
     internal var items = [Item]()
     

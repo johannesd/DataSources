@@ -16,6 +16,9 @@ import Foundation
  A base class for data sources that store key/value pairs.
  */
 open class MapBasedDataSource<Key, Item>: DataSourceDelegating where Key: Hashable {
+    public typealias Key = Key
+    public typealias Item = Item
+
     public var dataSourceDelegates = DataSourceDelegates()
     internal var items = [Key: Item]()
     
