@@ -56,7 +56,7 @@ extension MapItemListDataSource: MapDataSourceDelegate {
             guard let index = elementKeys.firstIndex(of: _key) else { fatalError("Key not found") }
             return index
         }
-        for index in deletedIndices.reversed() {
+        for index in deletedIndices.sorted().reversed() {
             remove(at: index)
         }
     }
