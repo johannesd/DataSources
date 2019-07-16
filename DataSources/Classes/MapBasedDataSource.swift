@@ -22,6 +22,10 @@ open class MapBasedDataSource<Key, Item>: DataSourceDelegating where Key: Hashab
     public var dataSourceDelegates = DataSourceDelegates()
     internal var items = [Key: Item]()
     
+    public init() {
+        
+    }
+    
     public struct Element {
         public let key: Key
         public let item: Item
