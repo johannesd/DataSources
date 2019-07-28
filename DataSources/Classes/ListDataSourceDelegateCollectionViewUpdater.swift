@@ -8,7 +8,7 @@
 import Foundation
 
 public class ListDataSourceDelegateCollectionViewUpdater {
-    public var collectionView: UICollectionView?
+    public var collectionView: UICollectionView!
     
     public init(collectionView: UICollectionView?) {
         self.collectionView = collectionView
