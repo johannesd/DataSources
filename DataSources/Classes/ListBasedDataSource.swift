@@ -98,7 +98,7 @@ open class ReadonlyListBasedDataSource<Item>: DataSourceDelegating {
 }
 
 extension Array {
-    public init(listBasedDataSource: ListBasedDataSource<Element>) {
-        self = listBasedDataSource.items
+    public init(_ readonlyListBasedDataSource: ReadonlyListBasedDataSource<Element>) {
+        self = readonlyListBasedDataSource.items
     }
 }
