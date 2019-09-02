@@ -37,6 +37,24 @@ open class ListBasedDataSource<Item>: ReadonlyListBasedDataSource<Item> {
     }
 }
 
+extension ListBasedDataSource where Item: Codable {
+    public func write(to url: URL, options: Data.WritingOptions = []) throws {
+        let data = try JSONEncoder().encode(items)
+        try data.write(to: url, options: options)
+    }
+    
+    public convenience init(contentsOf url: URL, options: Data.ReadingOptions = []) throws {
+        self.init()
+        try self.addItems(from: url, options: options)
+    }
+    
+    public func addItems(from url: URL, options: Data.ReadingOptions = []) throws {
+        let data = try Data(contentsOf: url, options: options)
+        let decoder = JSONDecoder()
+        self.items = try decoder.decode([Item].self, from: data)
+    }
+}
+
 open class ReadonlyListBasedDataSource<Item>: DataSourceDelegating {
     public typealias Item = Item
     

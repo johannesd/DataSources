@@ -96,3 +96,22 @@ extension MapBasedDataSource.Element: Equatable {
         return lhs.key == rhs.key
     }
 }
+
+extension MapBasedDataSource where Key: Codable, Item: Codable {
+    public func write(to url: URL, options: Data.WritingOptions = []) throws {
+        let data = try JSONEncoder().encode(items)
+        print("encoded \(items.count) items")
+        try data.write(to: url, options: options)
+    }
+    
+    public convenience init(contentsOf url: URL, options: Data.ReadingOptions = []) throws {
+        self.init()
+        try self.addItems(from: url, options: options)
+    }
+    
+    public func addItems(from url: URL, options: Data.ReadingOptions = []) throws {
+        let data = try Data(contentsOf: url, options: options)
+        let decoder = JSONDecoder()
+        self.items = try decoder.decode([Key: Item].self, from: data)
+    }
+}
