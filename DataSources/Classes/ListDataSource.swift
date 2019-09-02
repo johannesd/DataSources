@@ -19,6 +19,10 @@ public final class ListDataSource<Item>: ListBasedDataSource<Item>, ExpressibleB
         self.items = items
     }
     
+    public override init() {
+        super.init()
+    }
+    
     public override func forEachDelegate(_ block: (ListDataSourceDelegate) -> Void) {
         super.forEachDelegate(block)
         delegates.forEach(block)

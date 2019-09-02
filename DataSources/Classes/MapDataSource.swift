@@ -21,6 +21,10 @@ public final class MapDataSource<Key, Item>: MapBasedDataSource<Key, Item>, Expr
         elements.forEach { items[$0] = $1 }
     }
     
+    public override init() {
+        super.init()
+    }
+    
     public override func forEachDelegate(_ block: (MapDataSourceDelegate) -> Void) {
         super.forEachDelegate(block)
         delegates.forEach(block)
