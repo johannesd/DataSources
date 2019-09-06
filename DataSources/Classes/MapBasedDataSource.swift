@@ -112,6 +112,9 @@ extension MapBasedDataSource where Key: Codable, Item: Codable {
     public func addItems(from url: URL, options: Data.ReadingOptions = []) throws {
         let data = try Data(contentsOf: url, options: options)
         let decoder = JSONDecoder()
+        forEachDelegate { $0.dataSourceWillUpdateItems(self) }
         self.items = try decoder.decode([Key: Item].self, from: data)
+        forEachDelegate { $0.dataSource(self, didInsertItemsForKeys: self.items.keys.map { AnyHashable($0) }) }
+        forEachDelegate { $0.dataSourceDidUpdateItems(self) }
     }
 }
