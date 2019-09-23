@@ -8,14 +8,12 @@
 import Foundation
 import Delegates
 
-//@dynamicMemberLookup
+@dynamicMemberLookup
 public final class ValueDataSource<Value>: DataSourceDelegating {
     public typealias Value = Value
     
     public var delegates = Delegates<ValueDataSourceDelegate>()
     public var dataSourceDelegates = DataSourceDelegates()
-//    internal var value: Value // Use this when we can use `@dynamicMemberLookup`
-    
     public var value: Value {
         willSet {
             forEachDelegate { $0.dataSourceWillUpdateValue(self) }
@@ -25,20 +23,18 @@ public final class ValueDataSource<Value>: DataSourceDelegating {
         }
     }
 
-//    public subscript<T>(dynamicMember keyPath: WritableKeyPath<Value, T>) -> T {
-//        get {
-//            return value[keyPath: keyPath]
-//        }
-//        set {
-//            forEachDelegate { $0.dataSourceWillUpdateValue(self) }
-//            value[keyPath: keyPath] = newValue
-//            forEachDelegate { $0.dataSourceDidUpdateValue(self) }
-//        }
-//    }
+    public subscript<T>(dynamicMember keyPath: WritableKeyPath<Value, T>) -> T {
+        get {
+            return value[keyPath: keyPath]
+        }
+        set {
+            value[keyPath: keyPath] = newValue
+        }
+    }
     
-//    public subscript<T>(dynamicMember keyPath: KeyPath<Value, T>) -> T {
-//        return value[keyPath: keyPath]
-//    }
+    public subscript<T>(dynamicMember keyPath: KeyPath<Value, T>) -> T {
+        return value[keyPath: keyPath]
+    }
     
     public init(_ value: Value) {
         self.value = value
