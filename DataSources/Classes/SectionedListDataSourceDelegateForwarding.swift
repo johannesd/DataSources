@@ -14,7 +14,7 @@ public protocol SectionedListDataSourceDelegateForwarding: ListDataSourceDelegat
 
 extension SectionedListDataSourceDelegateForwarding {
     public func destinationDataSourceDelegates(for dataSource: Any) -> [ListDataSourceDelegate] {
-        return _destinationDataSourceDelegates(for: dataSource)
+        return destinationDataSourceDelegates(for: dataSource) as [SectionedListDataSourceDelegate]
     }
     
     public func dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {
@@ -40,10 +40,6 @@ extension SectionedListDataSourceDelegateForwarding {
      This can be see as calling the super implementation in the context of class inheritence. However, this concept is not
      available in Swift for generic protocols, so we have to use this workaround.
      */
-    
-    public func _destinationDataSourceDelegates(for dataSource: Any) -> [ListDataSourceDelegate] {
-        return destinationDataSourceDelegates(for: dataSource)
-    }
     
     public func _dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {
         destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertSections: sectionIndices) }

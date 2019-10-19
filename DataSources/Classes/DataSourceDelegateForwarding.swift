@@ -36,11 +36,10 @@ extension DataSourceDelegateForwarding {
      */
     public func _destinationDataSourceDelegates(for dataSource: Any) -> [DataSourceDelegate] {
         var dataSourceDelegates = [DataSourceDelegate]()
-        if let _self = self as? ListDataSourceDelegateForwarding {
-            dataSourceDelegates.append(contentsOf: _self.destinationDataSourceDelegates(for: dataSource) as [ListDataSourceDelegate])
-        }
         if let _self = self as? SectionedListDataSourceDelegateForwarding {
             dataSourceDelegates.append(contentsOf: _self.destinationDataSourceDelegates(for: dataSource) as [SectionedListDataSourceDelegate])
+        } else if let _self = self as? ListDataSourceDelegateForwarding {
+            dataSourceDelegates.append(contentsOf: _self.destinationDataSourceDelegates(for: dataSource) as [ListDataSourceDelegate])
         }
         if let _self = self as? MapDataSourceDelegateForwarding {
             dataSourceDelegates.append(contentsOf: _self.destinationDataSourceDelegates(for: dataSource) as [MapDataSourceDelegate])
