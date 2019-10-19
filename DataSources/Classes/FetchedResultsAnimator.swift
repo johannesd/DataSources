@@ -40,7 +40,7 @@ open class FetchedResultsAnimator: NSObject {
      Initializes an instance of FetchedResultsAnimator.
      - Parameter animate: Specifies if the the changes should be animated.
      */
-    init(animate: Bool = true) {
+    public init(animate: Bool = true) {
         self.animate = animate
         super.init()
     }
