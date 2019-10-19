@@ -10,6 +10,10 @@ import Foundation
 import CoreData
 import Delegates
 
+public protocol FetchedResultsListDataSourceDelegateAnimatorDelegate: FetchedResultsAnimatorDelegate {
+    func fetchedResultsListDataSourceDelegateAnimator(_ fetchedResultsListDataSourceDelegateAnimator: FetchedResultsListDataSourceDelegateAnimator, sectionForObject object: Any) -> Int
+}
+
 /**
  This class offers helper functions for calling update functions (insert/delete/move etc.)
  of a ListDataSourceDelegate fed by a `NSFetchedResultsController`.
@@ -25,13 +29,17 @@ open class FetchedResultsListDataSourceDelegateAnimator: FetchedResultsAnimator 
      The DataSourceDelegates the update functions should be called of.
      */
     public let dataSourceDelegates = Delegates<ListDataSourceDelegate>()
-
+    
     /**
      Converts the indexPaths of the FetchedResultsController to the indexPaths of the data source. If the
      data source delegate conforms to SectionedListDataSourceDelegate, sections are maintained (two indices).
      Otherwise, the indexPaths have only one index.
      */
-    private func convert(_ indexPath: IndexPath, for dataSourceDelegate: ListDataSourceDelegate) -> IndexPath {
+    private func convert(_ indexPath: IndexPath, of object: Any?, for dataSourceDelegate: ListDataSourceDelegate) -> IndexPath {
+        if let object = object, let delegate = delegate as? FetchedResultsListDataSourceDelegateAnimatorDelegate {
+            let section = delegate.fetchedResultsListDataSourceDelegateAnimator(self, sectionForObject: object)
+            return IndexPath(item: indexPath.item, section: section)
+        }
         if let _ = dataSourceDelegate as? SectionedListDataSourceDelegate {
             return indexPath
         } else {
@@ -40,12 +48,12 @@ open class FetchedResultsListDataSourceDelegateAnimator: FetchedResultsAnimator 
         }
     }
 
-    private func convert(_ index: Int, for dataSourceDelegate: ListDataSourceDelegate) -> Int {
-        return convert(IndexPath(index: index), for: dataSourceDelegate).index
+    private func convert(_ index: Int, of object: Any?, for dataSourceDelegate: ListDataSourceDelegate) -> Int {
+        return convert(IndexPath(index: index), of: object, for: dataSourceDelegate).index
     }
 
     private func convert(_ indexSet: IndexSet, for dataSourceDelegate: ListDataSourceDelegate) -> IndexSet {
-        return IndexSet(indexSet.map({ convert($0, for: dataSourceDelegate) }))
+        return IndexSet(indexSet.map({ convert($0, of: nil, for: dataSourceDelegate) }))
     }
 
     override func beginUpdates() {
@@ -80,7 +88,7 @@ open class FetchedResultsListDataSourceDelegateAnimator: FetchedResultsAnimator 
         super.insertObject(object, at: indexPath)
         guard let dataSource = dataSource else { return }
         dataSourceDelegates.forEach { (dataSourceDelegate) in
-            dataSourceDelegate.dataSource(dataSource, didInsertItemsAtIndexPaths: [convert(indexPath, for: dataSourceDelegate)])
+            dataSourceDelegate.dataSource(dataSource, didInsertItemsAtIndexPaths: [convert(indexPath, of: object, for: dataSourceDelegate)])
         }
     }
 
@@ -88,7 +96,7 @@ open class FetchedResultsListDataSourceDelegateAnimator: FetchedResultsAnimator 
         super.deleteObject(object, at: indexPath)
         guard let dataSource = dataSource else { return }
         dataSourceDelegates.forEach { (dataSourceDelegate) in
-            dataSourceDelegate.dataSource(dataSource, didDeleteItemsAtIndexPaths: [convert(indexPath, for: dataSourceDelegate)])
+            dataSourceDelegate.dataSource(dataSource, didDeleteItemsAtIndexPaths: [convert(indexPath, of: object, for: dataSourceDelegate)])
         }
     }
 
@@ -96,8 +104,8 @@ open class FetchedResultsListDataSourceDelegateAnimator: FetchedResultsAnimator 
         super.reloadObject(object, at: indexPathUpdate)
         guard let dataSource = dataSource else { return }
         dataSourceDelegates.forEach { (dataSourceDelegate) in
-            let convertedIndexPath = IndexPathUpdate(old: convert(indexPathUpdate.oldIndexPath, for: dataSourceDelegate),
-                                                     new: convert(indexPathUpdate.newIndexPath, for: dataSourceDelegate))
+            let convertedIndexPath = IndexPathUpdate(old: convert(indexPathUpdate.oldIndexPath, of: object, for: dataSourceDelegate),
+                                                     new: convert(indexPathUpdate.newIndexPath, of: object, for: dataSourceDelegate))
             dataSourceDelegate.dataSource(dataSource, didUpdateItemsAtIndexPaths: [convertedIndexPath])
         }
     }
@@ -107,8 +115,8 @@ open class FetchedResultsListDataSourceDelegateAnimator: FetchedResultsAnimator 
         guard let dataSource = dataSource else { return }
         dataSourceDelegates.forEach { (dataSourceDelegate) in
             dataSourceDelegate.dataSource(dataSource,
-                                          didMoveItemAtIndexPath: convert(fromIndexPath, for: dataSourceDelegate),
-                                          toIndexPath: convert(toIndexPath, for: dataSourceDelegate))
+                                          didMoveItemAtIndexPath: convert(fromIndexPath, of: object, for: dataSourceDelegate),
+                                          toIndexPath: convert(toIndexPath, of: object, for: dataSourceDelegate))
         }
     }
 
