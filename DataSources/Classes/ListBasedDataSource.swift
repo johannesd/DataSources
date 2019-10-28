@@ -110,6 +110,14 @@ open class ReadonlyListBasedDataSource<Item>: DataSourceDelegating {
         forEachDelegate { $0.dataSourceDidUpdateItems(self) }
     }
     
+    open func move(_ fromIndex: Int, to toIndex: Int) {
+        forEachDelegate { $0.dataSourceWillUpdateItems(self) }
+        let element = items.remove(at: fromIndex)
+        items.insert(element, at: toIndex)
+        forEachDelegate { $0.dataSource(self, didMoveItemAtIndexPath: IndexPath(index: fromIndex), toIndexPath: IndexPath(index: toIndex)) }
+        forEachDelegate { $0.dataSourceDidUpdateItems(self) }
+    }
+    
     open var count: Int {
         return items.count
     }

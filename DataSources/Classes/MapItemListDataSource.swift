@@ -19,8 +19,8 @@ public final class MapItemListDataSource<Key, Item>: ReadonlyListBasedDataSource
     private let isIncluded: (MapDataSource.Element) -> Bool
     
     public init(_ mapDataSource: MapBasedDataSource<Key, Item>,
-                filteredBy isIncluded: @escaping (MapDataSource.Element) -> Bool = { _ in true },
-                sortedBy areInIncreasingOrder: @escaping (MapDataSource.Element, MapDataSource.Element) -> Bool) {
+                filteredBy isIncluded: @escaping (MapBasedDataSource<Key, Item>.Element) -> Bool = { _ in true },
+                sortedBy areInIncreasingOrder: @escaping (MapBasedDataSource<Key, Item>.Element, MapBasedDataSource<Key, Item>.Element) -> Bool) {
         self.mapDataSource = mapDataSource
         self.isIncluded = isIncluded
         self.areInIncreasingOrder = areInIncreasingOrder
@@ -73,12 +73,32 @@ extension MapItemListDataSource: MapDataSourceDelegate {
     public func dataSource(_ dataSource: Any, didUpdateItemsForKeys keys: [AnyHashable]) {
         // TODO: This produces an independent update for each key, but should only
         // create one update, so that animations won't break. See TODO at top of file.
-        let elementKeys = items.map { $0.key }
         for _key in keys {
+            let elementKeys = items.map { $0.key }
             guard let key = _key as? Key else { fatalError("Wrong key type") }
             guard let item = mapDataSource[key] else { fatalError("Item not found") }
-            guard let index = elementKeys.firstIndex(of: key) else { continue }
-            self[index] = .init(key: key, item: item)
+            let currentIndex = elementKeys.firstIndex(of: key)
+            let newElement = MapBasedDataSource<Key,Item>.Element(key: key, item: item)
+            switch (currentIndex, isIncluded(newElement)) {
+            case (.none, true):
+                let newElementKeys = (items + [newElement]).sorted(by: areInIncreasingOrder).map { $0.key }
+                let newIndex = newElementKeys.firstIndex(of: newElement.key)!
+                insert(newElement, at: newIndex)
+            case (.some(let index), false):
+                remove(at: index)
+            case (.some(let index), true):
+                var _items = items
+                _items.remove(at: index)
+                let newElementKeys = (_items + [newElement]).sorted(by: areInIncreasingOrder).map { $0.key }
+                let newIndex = newElementKeys.firstIndex(of: newElement.key)!
+                if index == newIndex {
+                    self[index] = newElement
+                } else {
+                    move(index, to: newIndex)
+                }
+            case (.none, false):
+                break
+            }
         }
     }
     
@@ -88,7 +108,7 @@ extension MapItemListDataSource: MapDataSourceDelegate {
 }
 
 extension MapItemListDataSource where Key: Comparable {
-    public convenience init(_ mapDataSource: MapBasedDataSource<Key, Item>, filteredBy isIncluded: @escaping (MapDataSource.Element) -> Bool = { _ in true }) {
+    public convenience init(_ mapDataSource: MapBasedDataSource<Key, Item>, filteredBy isIncluded: @escaping (MapBasedDataSource<Key, Item>.Element) -> Bool = { _ in true }) {
         self.init(mapDataSource, filteredBy: isIncluded, sortedBy: { $0.key < $1.key })
     }
 }
