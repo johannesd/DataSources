@@ -25,7 +25,7 @@ public final class MapItemListDataSource<Key, Item>: ReadonlyListBasedDataSource
         self.isIncluded = isIncluded
         self.areInIncreasingOrder = areInIncreasingOrder
         super.init()
-        items = mapDataSource.elements.sorted(by: areInIncreasingOrder)
+        items = mapDataSource.elements.filter({ isIncluded($0) }).sorted(by: areInIncreasingOrder)
         mapDataSource.add(self, as: MapDataSourceDelegate.self)
     }
     
