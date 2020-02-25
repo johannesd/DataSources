@@ -10,6 +10,11 @@ import Foundation
 
 public protocol ListDataSourceDelegateForwarding: DataSourceDelegateForwarding {
     func destinationDataSourceDelegates(for dataSource: Any) -> [ListDataSourceDelegate]
+    
+    /**
+     Converts the indexPaths of the data source to the indexPaths of the destination.
+     */
+    func convert(_ indexPath: IndexPath, fromDataSource dataSource: Any, toDataSourceDelegate dataSourceDelegate: ListDataSourceDelegate) -> IndexPath
 }
 
 extension ListDataSourceDelegateForwarding {
@@ -17,6 +22,19 @@ extension ListDataSourceDelegateForwarding {
         return _destinationDataSourceDelegates(for: dataSource)
     }
 
+    public func convert(_ indexPath: IndexPath, fromDataSource dataSource: Any, toDataSourceDelegate dataSourceDelegate: ListDataSourceDelegate) -> IndexPath {
+        return indexPath
+    }
+    
+    func convert(_ indexPaths: [IndexPath], fromDataSource dataSource: Any, toDataSourceDelegate dataSourceDelegate: ListDataSourceDelegate) -> [IndexPath] {
+        return indexPaths.map { convert($0, fromDataSource: dataSource, toDataSourceDelegate: dataSourceDelegate) }
+    }
+    
+    func convert(_ indexPaths: [IndexPathUpdate], fromDataSource dataSource: Any, toDataSourceDelegate dataSourceDelegate: ListDataSourceDelegate) -> [IndexPathUpdate] {
+        return indexPaths.map { IndexPathUpdate(old: convert($0.oldIndexPath, fromDataSource: dataSource, toDataSourceDelegate: dataSourceDelegate),
+                                                new: convert($0.newIndexPath, fromDataSource: dataSource, toDataSourceDelegate: dataSourceDelegate)) }
+    }
+    
     public func dataSource(_ dataSource: Any, didInsertItemsAtIndexPaths indexPaths: [IndexPath]) {
         _dataSource(dataSource, didInsertItemsAtIndexPaths: indexPaths)
     }
@@ -42,18 +60,20 @@ extension ListDataSourceDelegateForwarding {
      */
     
     public func _dataSource(_ dataSource: Any, didInsertItemsAtIndexPaths indexPaths: [IndexPath]) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertItemsAtIndexPaths: indexPaths) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertItemsAtIndexPaths: convert(indexPaths, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
     
     public func _dataSource(_ dataSource: Any, didDeleteItemsAtIndexPaths indexPaths: [IndexPath]) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didDeleteItemsAtIndexPaths: indexPaths) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didDeleteItemsAtIndexPaths: convert(indexPaths, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
     
     public func _dataSource(_ dataSource: Any, didUpdateItemsAtIndexPaths indexPaths: [IndexPathUpdate]) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didUpdateItemsAtIndexPaths: indexPaths) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didUpdateItemsAtIndexPaths: convert(indexPaths, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
     
     public func _dataSource(_ dataSource: Any, didMoveItemAtIndexPath fromIndexPath: IndexPath, toIndexPath: IndexPath) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didMoveItemAtIndexPath: fromIndexPath, toIndexPath: toIndexPath) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self,
+                                                                                didMoveItemAtIndexPath: convert(fromIndexPath, fromDataSource: dataSource, toDataSourceDelegate: $0),
+                                                                                toIndexPath: convert(toIndexPath, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
 }

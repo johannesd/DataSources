@@ -9,6 +9,11 @@ import Foundation
 
 public protocol MapDataSourceDelegateForwarding: DataSourceDelegateForwarding {
     func destinationDataSourceDelegates(for dataSource: Any) -> [MapDataSourceDelegate]
+
+    /**
+     Converts the keys of the data source to the keys of the destination data source.
+     */
+    func convert(_ key: AnyHashable, fromDataSource sourceDataSource: Any, toDataSourceDelegate dataSourceDelegate: MapDataSourceDelegate) -> AnyHashable
 }
 
 extension MapDataSourceDelegateForwarding {
@@ -16,6 +21,14 @@ extension MapDataSourceDelegateForwarding {
         return _destinationDataSourceDelegates(for: dataSource)
     }
 
+    public func convert(_ key: AnyHashable, fromDataSource dataSource: Any, toDataSourceDelegate dataSourceDelegate: MapDataSourceDelegate) -> AnyHashable {
+        return key
+    }
+    
+    func convert(_ keys: [AnyHashable], fromDataSource dataSource: Any, toDataSourceDelegate dataSourceDelegate: MapDataSourceDelegate) -> [AnyHashable] {
+        return keys.map { convert($0, fromDataSource: dataSource, toDataSourceDelegate: dataSourceDelegate) }
+    }
+    
     public func dataSource(_ dataSource: Any, didInsertItemsForKeys keys: [AnyHashable]) {
         _dataSource(dataSource, didInsertItemsForKeys: keys)
     }
@@ -37,14 +50,14 @@ extension MapDataSourceDelegateForwarding {
      */
     
     public func _dataSource(_ dataSource: Any, didInsertItemsForKeys keys: [AnyHashable]) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertItemsForKeys: keys) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertItemsForKeys: convert(keys, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
     
     public func _dataSource(_ dataSource: Any, didDeleteItemsForKeys keys: [AnyHashable]) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didDeleteItemsForKeys: keys) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didDeleteItemsForKeys: convert(keys, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
     
     public func _dataSource(_ dataSource: Any, didUpdateItemsForKeys keys: [AnyHashable]) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didUpdateItemsForKeys: keys) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didUpdateItemsForKeys: convert(keys, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
 }

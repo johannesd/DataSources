@@ -17,6 +17,14 @@ extension SectionedListDataSourceDelegateForwarding {
         return destinationDataSourceDelegates(for: dataSource) as [SectionedListDataSourceDelegate]
     }
     
+    func convert(_ index: Int, fromDataSource dataSource: Any, toDataSourceDelegate dataSourceDelegate: ListDataSourceDelegate) -> Int {
+        return convert(IndexPath(index: index), fromDataSource: dataSource, toDataSourceDelegate: dataSourceDelegate).index
+    }
+    
+    func convert(_ indexSet: IndexSet, fromDataSource dataSource: Any, toDataSourceDelegate dataSourceDelegate: ListDataSourceDelegate) -> IndexSet {
+        return IndexSet(indexSet.map({ convert($0, fromDataSource: dataSource, toDataSourceDelegate: dataSourceDelegate) }))
+    }
+    
     public func dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {
         _dataSource(dataSource, didInsertSections: sectionIndices)
     }
@@ -42,18 +50,20 @@ extension SectionedListDataSourceDelegateForwarding {
      */
     
     public func _dataSource(_ dataSource: Any, didInsertSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertSections: sectionIndices) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didInsertSections: convert(sectionIndices, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
     
     public func _dataSource(_ dataSource: Any, didDeleteSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didDeleteSections: sectionIndices) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didDeleteSections: convert(sectionIndices, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
     
     public func _dataSource(_ dataSource: Any, didUpdateSections sectionIndices: IndexSet) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didUpdateSections: sectionIndices) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didUpdateSections: convert(sectionIndices, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
     
     public func _dataSource(_ dataSource: Any, didMoveSection fromSectionIndex: Int, to toSectionIndex: Int) {
-        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self, didMoveSection: fromSectionIndex, to: toSectionIndex) }
+        destinationDataSourceDelegates(for: dataSource).forEach { $0.dataSource(self,
+                                                                                didMoveSection: convert(fromSectionIndex, fromDataSource: dataSource, toDataSourceDelegate: $0),
+                                                                                to: convert(toSectionIndex, fromDataSource: dataSource, toDataSourceDelegate: $0)) }
     }
 }
