@@ -37,4 +37,16 @@ extension Dictionary where Key == String, Value == Delegates<AnyObject> {
         let delegatesForType = self[key, default: DataSourceDelegates.Value()]
         return delegatesForType.allObjects.map { $0 as! Delegate }
     }
+    
+    public func anyDataSourceDelegate<DataSourceDelegate>(_ block: (DataSourceDelegate) -> Bool) -> Bool {
+        let key = "\(DataSourceDelegate.self)"
+        let delegatesForType = self[key, default: DataSourceDelegates.Value()]
+        return delegatesForType.any({ delegate in block(delegate as! DataSourceDelegate) })
+    }
+    
+    public func allDataSourceDelegates<DataSourceDelegate>(_ block: (DataSourceDelegate) -> Bool) -> Bool {
+        let key = "\(DataSourceDelegate.self)"
+        let delegatesForType = self[key, default: DataSourceDelegates.Value()]
+        return delegatesForType.all({ delegate in block(delegate as! DataSourceDelegate) })
+    }
 }
