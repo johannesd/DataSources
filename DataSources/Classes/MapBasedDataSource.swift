@@ -41,20 +41,37 @@ open class MapBasedDataSource<Key, Item>: DataSourceDelegating where Key: Hashab
             return items[key]
         }
         set(newValue) {
-            if let newValue = newValue {
+            merge(dict: [key: newValue])
+        }
+    }
+    
+    open func merge(elements: [Element]) {
+        merge(dict: elements.reduce(into: [:], { $0[$1.key] = $1.item }))
+    }
+    
+    open func merge(dict: [Key: Item?]) {
+        forEachDelegate { $0.dataSourceWillUpdateItems(self) }
+        var updatedKeys = [Key]()
+        var insertedKeys = [Key]()
+        var deletedKeys = [Key]()
+        for (key, value) in dict {
+            if let value = value {
                 let existingValue = self[key]
-                forEachDelegate { $0.dataSourceWillUpdateItems(self) }
-                items[key] = newValue
+                items[key] = value
                 if let _ = existingValue {
-                    forEachDelegate { $0.dataSource(self, didUpdateItemsForKeys: [key]) }
+                    updatedKeys.append(key)
                 } else {
-                    forEachDelegate { $0.dataSource(self, didInsertItemsForKeys: [key]) }
+                    insertedKeys.append(key)
                 }
-                forEachDelegate { $0.dataSourceDidUpdateItems(self) }
             } else {
-                removeItem(forKey: key)
+                items.removeValue(forKey: key)
+                deletedKeys.append(key)
             }
         }
+        forEachDelegate { $0.dataSource(self, didUpdateItemsForKeys: updatedKeys) }
+        forEachDelegate { $0.dataSource(self, didInsertItemsForKeys: insertedKeys) }
+        forEachDelegate { $0.dataSource(self, didDeleteItemsForKeys: deletedKeys) }
+        forEachDelegate { $0.dataSourceDidUpdateItems(self) }
     }
     
     open func item(forKey key: Key) -> Item? {
@@ -63,10 +80,7 @@ open class MapBasedDataSource<Key, Item>: DataSourceDelegating where Key: Hashab
     
     open func removeItem(forKey key: Key) {
         if let _ = items[key] {
-            forEachDelegate { $0.dataSourceWillUpdateItems(self) }
-            items.removeValue(forKey: key)
-            forEachDelegate { $0.dataSource(self, didDeleteItemsForKeys: [key]) }
-            forEachDelegate { $0.dataSourceDidUpdateItems(self) }
+            merge(dict: [key: nil])
         }
     }
     
@@ -76,6 +90,10 @@ open class MapBasedDataSource<Key, Item>: DataSourceDelegating where Key: Hashab
         items.removeAll()
         forEachDelegate { $0.dataSource(self, didDeleteItemsForKeys: keys.map { AnyHashable($0) } ) }
         forEachDelegate { $0.dataSourceDidUpdateItems(self) }
+    }
+    
+    open func removeItems(forKeys keys: [Key]) {
+        merge(dict: keys.reduce(into: [:], { $0.updateValue(nil, forKey: $1) }))
     }
     
     open var count: Int {
